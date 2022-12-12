@@ -40,4 +40,38 @@ Card readCard(char* cardIn)
     return card;
 }
 
+bool canPutTable(Card card, Card table)
+{
+    return card.suit == table.suit || card.value == table.value;
+}
+
+char* getValue(Card card)
+{
+    char values[][2] = {"A","1","2","3","4","5","6","7","8","9","10","V","D","R","C"};
+
+    char* value = values[card.value];
+
+    return value;
+}
+
+char* getSuit(Card card)
+{
+    char suits[][4] = {"♦","♣","♥","♠"};
+
+    char* suit = suits[card.suit];
+
+    return suit;
+}
+
+char* getCard(Card card)
+{
+    char* result = malloc(6 * sizeof(char));
+
+    strncpy(result, getValue(card), 2);
+
+    strcpy(result + 1 + (card.value == 10), getSuit(card));
+
+    return result;
+}
+
 #endif
