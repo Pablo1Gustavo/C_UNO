@@ -8,7 +8,7 @@ void testDeclareCard()
     card.suit = DIAMONDS;
     card.value = D;
 
-    test("Declaring a card",
+    test("Declare a card",
         card.suit == DIAMONDS && card.value == D
     );
 }
@@ -40,14 +40,14 @@ void testReadHand()
         {A,HEARTS}
     };
 
-    test("Reading the hand",
+    test("Read the hand",
         assertHandsEquals(hand, handAssert, 4)
     );
 }
 
 void testReadAction()
 {
-    test("Reading the action",
+    test("Read the action",
         readAction("SAY") == SAY &&
         readAction("DISCARD") == DISCARD &&
         readAction("BUY") == BUY &&
@@ -64,7 +64,7 @@ void testCanPutOnTable()
         {V,DIAMONDS}
     };
 
-    test("Checking if can put card on table",
+    test("Check if can put card on table",
         canPutTable(cards[0], cards[1]) &&
         canPutTable(cards[0], cards[2]) &&
         !canPutTable(cards[0], cards[3]) &&
@@ -81,7 +81,7 @@ void testGetCard()
         {V,DIAMONDS}
     };
     
-    test("Getting a card str",
+    test("Get a card str",
         strcmp(getCard(cards[0]), "4♥") == 0 &&
         strcmp(getCard(cards[1]), "10♣") == 0 &&
         strcmp(getCard(cards[2]), "C♠") == 0 &&
@@ -96,19 +96,46 @@ void testDiscardAndUpdate()
         {10,CLUBS},
         {C,SPADES},
         {V,DIAMONDS},
-        {A,HEARTS}
+        {A,HEARTS},
+        {10,DIAMONDS}
+    };
+    Hand handAssert = (Card[]){
+        {4,HEARTS},
+        {10,DIAMONDS}
+    };
+
+    hand = discardAndUpdate(hand, 1, 6);
+    hand = discardAndUpdate(hand, 1, 5);
+    hand = discardAndUpdate(hand, 1, 4);
+    hand = discardAndUpdate(hand, 1, 3);
+
+    test("Discard and update hand",
+        assertHandsEquals(hand, handAssert, 2)
+    );
+}
+
+void testAddAndUpdate()
+{
+    Hand hand = (Card[]){
+        {4,HEARTS},
+        {10,CLUBS}
     };
     Hand handAssert = (Card[]){
         {4,HEARTS},
         {10,CLUBS},
-        {V,DIAMONDS},
-        {A,HEARTS}
+        {9,CLUBS},
+        {8,DIAMONDS},
+        {V,SPADES},
+        {A,SPADES}
     };
 
-    hand = discardAndUpdate(hand, 2, 5);
+    hand = addCardAndUpdate(handAssert[2], hand, 2);
+    hand = addCardAndUpdate(handAssert[3], hand, 3);
+    hand = addCardAndUpdate(handAssert[4], hand, 4);
+    hand = addCardAndUpdate(handAssert[5], hand, 5);
 
-    test("Reading the hand",
-        assertHandsEquals(hand, handAssert, 4)
+    test("Add cards and update hand",
+        assertHandsEquals(hand, handAssert, 2)
     );
 }
 
@@ -123,4 +150,5 @@ int main()
     testCanPutOnTable();
     testGetCard();
     testDiscardAndUpdate();
+    testAddAndUpdate();
 }

@@ -24,6 +24,7 @@ bool assertHandsEquals(Hand a, Hand b, int len)
 
     for (int i = 0; i < len; i++)
     {
+        // printf("%d %d || %d %d\n", a[i].value, b[i].value, a[i].suit, b[i].suit);
         assert &= 
             a[i].value == b[i].value &&
             a[i].suit == b[i].suit
