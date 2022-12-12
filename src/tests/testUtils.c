@@ -18,13 +18,11 @@ void test(char* name, bool result)
     printf("\033[0m");
 }
 
-bool assertHandsEquals(Hand a, int lenA, Hand b, int lenB)
+bool assertHandsEquals(Hand a, Hand b, int len)
 {
     bool assert = true;
 
-    int maxLen = lenA > lenB ? lenA : lenB; 
-
-    for (int i = 0; i < maxLen; i++)
+    for (int i = 0; i < len; i++)
     {
         assert &= 
             a[i].value == b[i].value &&
