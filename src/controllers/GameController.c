@@ -76,9 +76,9 @@ Hand discardAndUpdate(Hand hand, int index, int handSize)
 
     printf("DISCARD %s", getCard(hand[index]));
 
-    if (hand[index].value == A)
+    if (canChangeColor(hand[index]))
     {
-        printf("%s", getSuit(newHand[0]));
+        printf(" %s", getSuit(newHand[0]));
     }
 
     printf("\n");
@@ -86,17 +86,21 @@ Hand discardAndUpdate(Hand hand, int index, int handSize)
     return newHand;
 }
 
-bool checkTableAndAct(Card table)
+Hand addCardAndUpdate(Card newCard, Hand hand, int handSize)
 {
-    if (table.value != V && table.value != C)
-    {
-        return false;
-    }
+    hand = realloc(hand, (handSize + 1) * sizeof(Card));
 
-    if (table.value == V) buy(2);
-    if (table.value == C) buy(4);
+    hand[handSize] = newCard;
 
-    return true;
+    return hand;
+}
+
+int checkTableToBuy(Card table)
+{
+    if (table.value == V) return 2;
+    if (table.value == C) return 4;
+
+    return 0;
 }
 
 #endif
