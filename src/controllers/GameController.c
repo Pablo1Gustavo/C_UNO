@@ -1,11 +1,6 @@
 #ifndef GAME_CONTROLLER
 #define GAME_CONTROLLER
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
-#include "../definitions/Card.h"
 #include "../definitions/Game.h"
 #include "CardController.c"
 
@@ -34,9 +29,29 @@ Hand readHand(char* complement)
 
 Action readAction(char* action)
 {
-    if (strcmp(action, "SAY") == 0)      return SAY;
-    if (strcmp(action, "DISCARD") == 0)  return DISCARD;
-    if (strcmp(action, "BUY") == 0)      return BUY;
+    if (strcmp(action, "SAY") == 0)     return SAY;
+    if (strcmp(action, "DISCARD") == 0) return DISCARD;
+    if (strcmp(action, "BUY") == 0)     return BUY;
+    
+    return TURN;
+}
+
+bool checkMyTurn(char* id, char* myID)
+{
+    return strcasecmp(id, myID) == 0;
+}
+
+bool checkTableAndAct(Card table)
+{
+    if (table.value != V && table.value != C)
+    {
+        return false;
+    }
+
+    if (table.value == V) buy(2);
+    if (table.value == C) buy(4);
+
+    return true;
 }
 
 #endif
