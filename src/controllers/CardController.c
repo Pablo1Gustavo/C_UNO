@@ -1,48 +1,41 @@
 #ifndef CARD_CONTROLLER
 #define CARD_CONTROLLER
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
 #include "../definitions/Card.h"
-#include "../definitions/Game.h"
+
+Value readValue(char* card)
+{
+    if      (card[1] == '0') return 10;
+    else if (card[0] == 'A') return A;
+    else if (card[0] == 'V') return V;
+    else if (card[0] == 'D') return D;
+    else if (card[0] == 'R') return R;
+    else if (card[0] == 'C') return C;
+
+    return card[0] - '0';
+}
+
+Suit readSuit(char* suit)
+{
+    if      (strcmp(suit, "♦") == 0) return DIAMONDS;
+    else if (strcmp(suit, "♣") == 0) return CLUBS;
+    else if (strcmp(suit, "♥") == 0) return HEARTS;
+    
+    return SPADES;
+}
 
 Card readCard(char* cardIn)
 {
     Card card;
+    card.value = readValue(cardIn);
 
-    int i;
+    char suit[4];
 
-    for (i = 0 ;; i++)
-    {
-        char curr = cardIn[i];
+    int i = (cardIn[1] == '0') + 1;
 
-        if (curr >= '1' && curr <= '9')
-        {
-            card.value = curr - '0';
-        }
-        else if (curr == '0') card.value = 10;
+    strcpy(suit, cardIn + i);
 
-        else if (curr == 'V') card.value = V;
-        else if (curr == 'D') card.value = D;
-        else if (curr == 'R') card.value = R;
-        else if (curr == 'C') card.value = C;
-
-        else break;
-    }
-
-    char suitIN[4];
-
-    for (int j = 0; cardIn[i] != '\0'; i++, j++)
-    {
-        suitIN[j] = cardIn[i];
-    }
-
-    if      (strcmp(suitIN, "♦") == 0) card.suit = DIAMONDS;
-    else if (strcmp(suitIN, "♣") == 0) card.suit = CLUBS;
-    else if (strcmp(suitIN, "♥") == 0) card.suit = HEARTS;
-    else if (strcmp(suitIN, "♠") == 0) card.suit = SPADES;
+    card.suit = readSuit(suit);
 
     return card;
 }
