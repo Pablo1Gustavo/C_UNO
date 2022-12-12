@@ -45,6 +45,11 @@ bool canPutTable(Card card, Card table)
     return card.suit == table.suit || card.value == table.value;
 }
 
+bool canChangeColor(Card card)
+{
+    return card.value == A || card.value == C;
+}
+
 char* getValue(Card card)
 {
     char values[][2] = {"A","1","2","3","4","5","6","7","8","9","10","V","D","R","C"};
