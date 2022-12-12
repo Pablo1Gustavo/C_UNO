@@ -54,4 +54,14 @@ bool checkTableAndAct(Card table)
     return true;
 }
 
+void say(char* message)
+{
+    printf("SAY \e[1m\x1b[41m\x1b[30m%s\033[0m\n", message);
+}
+
+void buy(int n)
+{
+    printf("BUY %d\n", n);
+}
+
 #endif
