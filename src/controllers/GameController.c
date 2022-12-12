@@ -36,9 +36,42 @@ Action readAction(char* action)
     return TURN;
 }
 
+
+void say(char* message)
+{
+    printf("SAY \e[1m\x1b[41m\x1b[30m%s\033[0m\n", message);
+}
+
+void buy(int n)
+{
+    printf("BUY %d\n", n);
+}
 bool checkMyTurn(char* id, char* myID)
 {
     return strcasecmp(id, myID) == 0;
+}
+
+Hand discardAndUpdate(Hand hand, int index, int handSize)
+{
+    Hand newHand = malloc((handSize - 1) * sizeof(Card));
+
+    for (int i = 0, j = 0; i < handSize; i++, j++)
+    {
+        if (i == index) i++;
+
+        newHand[j] = hand[i];
+    }
+
+    printf("DISCARD %s", getCard(hand[index]));
+
+    if (hand[index].value == A)
+    {
+        printf("%s", getSuit(newHand[0]));
+    }
+
+    printf("\n");
+
+    return newHand;
 }
 
 bool checkTableAndAct(Card table)
@@ -52,16 +85,6 @@ bool checkTableAndAct(Card table)
     if (table.value == C) buy(4);
 
     return true;
-}
-
-void say(char* message)
-{
-    printf("SAY \e[1m\x1b[41m\x1b[30m%s\033[0m\n", message);
-}
-
-void buy(int n)
-{
-    printf("BUY %d\n", n);
 }
 
 #endif
