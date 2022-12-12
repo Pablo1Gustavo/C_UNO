@@ -30,13 +30,14 @@ void testReadCard()
 
 void testReadHand()
 {
-    Hand hand = readHand("[ 4♥ 10♣ C♠ V♦ ]");
+    Hand hand = readHand("[ 4♥ 10♣ C♠ V♦ A♥ ]");
 
     Hand handAssert = (Card[]){
         {4,HEARTS},
         {10,CLUBS},
         {C,SPADES},
-        {V,DIAMONDS}
+        {V,DIAMONDS},
+        {A,HEARTS}
     };
 
     test("Reading the hand",
@@ -49,7 +50,8 @@ void testReadAction()
     test("Reading the action",
         readAction("SAY") == SAY &&
         readAction("DISCARD") == DISCARD &&
-        readAction("BUY") == BUY
+        readAction("BUY") == BUY &&
+        readAction("TURN") == TURN
     );
 }
 
