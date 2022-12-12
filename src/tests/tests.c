@@ -41,7 +41,7 @@ void testReadHand()
     };
 
     test("Reading the hand",
-        assertHandsEquals(hand, 4, handAssert, 4)
+        assertHandsEquals(hand, handAssert, 4)
     );
 }
 
@@ -55,6 +55,63 @@ void testReadAction()
     );
 }
 
+void testCanPutOnTable()
+{
+    Card cards[] = {
+        {4,HEARTS},
+        {4,CLUBS},
+        {A,HEARTS},
+        {V,DIAMONDS}
+    };
+
+    test("Checking if can put card on table",
+        canPutTable(cards[0], cards[1]) &&
+        canPutTable(cards[0], cards[2]) &&
+        !canPutTable(cards[0], cards[3]) &&
+        !canPutTable(cards[2], cards[3])
+    );
+}
+
+void testGetCard()
+{
+    Card cards[] = {
+        {4,HEARTS},
+        {10,CLUBS},
+        {C,SPADES},
+        {V,DIAMONDS}
+    };
+    
+    test("Getting a card str",
+        strcmp(getCard(cards[0]), "4♥") == 0 &&
+        strcmp(getCard(cards[1]), "10♣") == 0 &&
+        strcmp(getCard(cards[2]), "C♠") == 0 &&
+        strcmp(getCard(cards[3]), "V♦") == 0
+    );
+}
+
+void testDiscardAndUpdate()
+{
+    Hand hand = (Card[]){
+        {4,HEARTS},
+        {10,CLUBS},
+        {C,SPADES},
+        {V,DIAMONDS},
+        {A,HEARTS}
+    };
+    Hand handAssert = (Card[]){
+        {4,HEARTS},
+        {10,CLUBS},
+        {V,DIAMONDS},
+        {A,HEARTS}
+    };
+
+    hand = discardAndUpdate(hand, 2, 5);
+
+    test("Reading the hand",
+        assertHandsEquals(hand, handAssert, 4)
+    );
+}
+
 int main()
 {
     printf("===[ TESTS ]===\n");
@@ -63,4 +120,7 @@ int main()
     testReadCard();
     testReadHand();
     testReadAction();
+    testCanPutOnTable();
+    testGetCard();
+    testDiscardAndUpdate();
 }
