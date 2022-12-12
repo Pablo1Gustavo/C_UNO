@@ -4,6 +4,18 @@
 #include "../definitions/Game.h"
 #include "CardController.c"
 
+void debug(char *message, int value)
+{
+    if (value < 0)
+    {
+        fprintf(stderr, "%s\n", message);
+    }
+    else
+    {
+        fprintf(stderr, "%s %d\n", message, value);
+    }
+}
+
 Hand readHand(char* complement)
 {
     int cardsNum = 0;
