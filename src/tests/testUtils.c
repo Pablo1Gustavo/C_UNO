@@ -10,7 +10,7 @@ void test(char* name, bool result)
     else        printf("❌ \033[0;31m");
 
     printf(
-        "%s: %s\n",
+        "%s: %s.\n",
         name,
         result ? "passed" : "failed"
     );

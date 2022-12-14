@@ -1,6 +1,6 @@
 #include "testUtils.c"
-#include "../controllers/GameController.c"
-#include "../controllers/CardController.c"
+#include "../services/CardService.c"
+#include "../services/GameService.c"
 
 void testDeclareCard()
 {
@@ -135,7 +135,7 @@ void testAddAndUpdate()
     hand = addCardAndUpdate(handAssert[5], hand, 5);
 
     test("Add cards and update hand",
-        assertHandsEquals(hand, handAssert, 2)
+        assertHandsEquals(hand, handAssert, 6)
     );
 }
 
