@@ -2,7 +2,7 @@
 #define GAME_CONTROLLER
 
 #include "../definitions/Game.h"
-#include "CardController.c"
+#include "CardService.c"
 
 void debug(char *message, int value)
 {
@@ -58,9 +58,30 @@ void buy(int n)
 {
     printf("BUY %d\n", n);
 }
+
+void discard(Card card)
+{
+    printf("DISCARD %s", getCard(card));
+
+    if (canChangeColor(card))
+    {
+        printf(" %s", getSuit(card));
+    }
+
+    printf("\n");
+}
+
 bool checkMyTurn(char* id, char* myID)
 {
     return strcasecmp(id, myID) == 0;
+}
+
+int checkTableToBuy(Card table)
+{
+    if (table.value == V) return 2;
+    if (table.value == C) return 4;
+
+    return 0;
 }
 
 Hand discardAndUpdate(Hand hand, int index, int handSize)
@@ -74,33 +95,20 @@ Hand discardAndUpdate(Hand hand, int index, int handSize)
         newHand[j] = hand[i];
     }
 
-    printf("DISCARD %s", getCard(hand[index]));
-
-    if (canChangeColor(hand[index]))
-    {
-        printf(" %s", getSuit(newHand[0]));
-    }
-
-    printf("\n");
+    discard(hand[index]);
 
     return newHand;
 }
 
 Hand addCardAndUpdate(Card newCard, Hand hand, int handSize)
 {
-    hand = realloc(hand, (handSize + 1) * sizeof(Card));
+    Hand newHand = malloc((handSize + 1) * sizeof(Card));
 
-    hand[handSize] = newCard;
+    for (int i = 0; i < handSize; i++) newHand[i] = hand[i];
 
-    return hand;
-}
-
-int checkTableToBuy(Card table)
-{
-    if (table.value == V) return 2;
-    if (table.value == C) return 4;
-
-    return 0;
+    newHand[handSize] = newCard;
+    
+    return newHand;
 }
 
 #endif

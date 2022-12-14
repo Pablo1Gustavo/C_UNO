@@ -1,6 +1,9 @@
 #ifndef CARD_CONTROLLER
 #define CARD_CONTROLLER
 
+#include <stdlib.h>
+#include <stdbool.h>
+
 #include "../definitions/Card.h"
 
 Value readValue(char* card)
