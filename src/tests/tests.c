@@ -91,35 +91,38 @@ void testGetCard()
 
 void testDiscardAndUpdate()
 {
-    Hand hand = (Card[]){
-        {4,HEARTS},
-        {10,CLUBS},
-        {C,SPADES},
-        {V,DIAMONDS},
-        {A,HEARTS},
-        {10,DIAMONDS}
-    };
+    Hand hand = malloc(6 * sizeof(Card));
+    hand[0] = (Card){4,HEARTS};
+    hand[1] = (Card){10,CLUBS};
+    hand[2] = (Card){C,SPADES};
+    hand[3] = (Card){V,DIAMONDS};
+    hand[4] = (Card){A,HEARTS};
+    hand[5] = (Card){10,DIAMONDS};
+
     Hand handAssert = (Card[]){
         {4,HEARTS},
         {10,DIAMONDS}
     };
 
-    hand = discardAndUpdate(hand, 1, 6);
-    hand = discardAndUpdate(hand, 1, 5);
-    hand = discardAndUpdate(hand, 1, 4);
-    hand = discardAndUpdate(hand, 1, 3);
+    int handSize = 6;
+
+    discardAndUpdate(hand, 1, &handSize);
+    discardAndUpdate(hand, 1, &handSize);
+    discardAndUpdate(hand, 1, &handSize);
+    discardAndUpdate(hand, 1, &handSize);
 
     test("Discard and update hand",
+        handSize == 2 &&
         assertHandsEquals(hand, handAssert, 2)
     );
 }
 
 void testAddAndUpdate()
 {
-    Hand hand = (Card[]){
-        {4,HEARTS},
-        {10,CLUBS}
-    };
+    Hand hand = malloc(2 * sizeof(Card));
+    hand[0] = (Card){4,HEARTS};
+    hand[1] = (Card){10,CLUBS};
+
     Hand handAssert = (Card[]){
         {4,HEARTS},
         {10,CLUBS},
@@ -129,12 +132,15 @@ void testAddAndUpdate()
         {A,SPADES}
     };
 
-    hand = addCardAndUpdate(handAssert[2], hand, 2);
-    hand = addCardAndUpdate(handAssert[3], hand, 3);
-    hand = addCardAndUpdate(handAssert[4], hand, 4);
-    hand = addCardAndUpdate(handAssert[5], hand, 5);
+    int handSize= 2;
+
+    addCardAndUpdate(handAssert[2], hand, &handSize);
+    addCardAndUpdate(handAssert[3], hand, &handSize);
+    addCardAndUpdate(handAssert[4], hand, &handSize);
+    addCardAndUpdate(handAssert[5], hand, &handSize);
 
     test("Add cards and update hand",
+        handSize == 6 &&
         assertHandsEquals(hand, handAssert, 6)
     );
 }
@@ -149,6 +155,6 @@ int main()
     testReadAction();
     testCanPutOnTable();
     testGetCard();
-    testDiscardAndUpdate();
     testAddAndUpdate();
+    testDiscardAndUpdate();
 }
