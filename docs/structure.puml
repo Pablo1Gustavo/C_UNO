@@ -1,0 +1,67 @@
+@startuml structure
+title Uno player bot diagram
+
+enum Value {
+    A
+    1 2 3 4 5 6 7 8 9 10
+    V
+    D
+    R
+    C
+}
+
+enum Suit {
+    DIAMONDS
+    CLUBS
+    HEARTS
+    SPADES
+}
+
+struct Card {
+    Value value
+    Suit suit
+}
+
+enum Action {
+    SAY
+    DISCARD
+    BUY
+    TURN
+}
+
+interface CardService {
+    Value readValue(char* card)
+    Suit readSuit(char* suit)
+    Card readCard(char* cardIn)
+    --
+    char* getValue(Card card)
+    char* getSuit(Card card)
+    char* getCard(Card card)
+    --
+    bool canPutTable(Card card, Card table)
+    bool canChangeColor(Card card)
+}
+
+interface GameService {
+    Hand readHand(char* complement)
+    Action readAction(char* action)
+    --
+    void say(char* message)
+    void buy(int n)
+    void discard(Card card)
+    --
+    bool checkMyTurn(char* id, char* myID)
+    int checkTableToBuy(Card table)
+    Hand addCardAndUpdate(Card newCard, Hand hand, int handSize)
+}
+
+Value ..> Card
+Suit ..> Card
+
+Card .> CardService
+
+Card .> GameService
+CardService -> GameService
+Action .> GameService
+
+@enduml

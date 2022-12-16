@@ -1,0 +1,59 @@
+@startuml logic
+allowmixing
+title Game flow diagram
+
+Node Manager
+
+skinparam actorStyle Hollow 
+actor Bot1 #green
+actor Bot2 #green
+actor Main #blue
+
+skinparam actorStyle Default
+actor Audience
+
+Bot1 <-> Manager : in/out
+Bot2 <-> Manager : in/out
+Main <-> Manager : in/out
+
+package Bot_action {
+    usecase "BUY"
+    usecase "DISCARD"
+    usecase "SAY"
+}
+package Manager_action {
+    usecase "PLAYERS"
+    usecase "YOU"
+    usecase "HAND"
+    usecase "TABLE"
+    usecase "TURN"
+}
+
+note "Await the TURN action" as bot_action_note
+Bot_action ... bot_action_note
+
+note "Bots listen and handle with the action" as manager_action_note
+Manager_action ... manager_action_note
+
+json Actions {
+    "BUY":"< number >",
+    "DISCARD":["< card >","> complement <"],
+    "SAY":"< message >",
+    "PLAYERS": "< names >",
+    "YOU": "< name >",
+    "HAND": "< cards >",
+    "TABLE": "< card >",
+    "TURN":"< player >"
+}
+
+Manager_action --|> Actions
+Bot_action --|> Actions
+
+Bot1 .... Bot_action
+Bot2 .... Bot_action
+Main .... Bot_action
+
+Manager .... Manager_action
+Manager -> Audience : show game flow
+
+@enduml
