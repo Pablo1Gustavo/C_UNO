@@ -52,7 +52,9 @@ interface GameService {
     --
     bool checkMyTurn(char* id, char* myID)
     int checkTableToBuy(Card table)
-    Hand addCardAndUpdate(Card newCard, Hand hand, int handSize)
+    --
+    void discardAndUpdate(Hand hand, int index, int* handSize)
+    void addCardAndUpdate(Card newCard, Hand hand, int* handSize)
 }
 
 Value ..> Card

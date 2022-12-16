@@ -84,31 +84,27 @@ int checkTableToBuy(Card table)
     return 0;
 }
 
-Hand discardAndUpdate(Hand hand, int index, int handSize)
+void discardAndUpdate(Hand hand, int index, int* handSize)
 {
-    Hand newHand = malloc((handSize - 1) * sizeof(Card));
-
-    for (int i = 0, j = 0; i < handSize; i++, j++)
-    {
-        if (i == index) i++;
-
-        newHand[j] = hand[i];
-    }
-
     discard(hand[index]);
 
-    return newHand;
+    for (int i = index; i < *handSize - 1; i++)
+    {
+        hand[i] = hand[i + 1];
+    }
+
+    hand = realloc(hand, (*handSize - 1) * sizeof(Card));
+
+    (*handSize)--;
 }
 
-Hand addCardAndUpdate(Card newCard, Hand hand, int handSize)
+void addCardAndUpdate(Card newCard, Hand hand, int* handSize)
 {
-    Hand newHand = malloc((handSize + 1) * sizeof(Card));
+    hand = realloc(hand, (*handSize + 1) * sizeof(Card));
 
-    for (int i = 0; i < handSize; i++) newHand[i] = hand[i];
+    hand[*handSize] = newCard;
 
-    newHand[handSize] = newCard;
-    
-    return newHand;
+    (*handSize)++;
 }
 
 #endif
