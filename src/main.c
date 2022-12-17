@@ -1,4 +1,4 @@
-#include "controllers/GameController.c"
+#include "services/GameService.c"
 
 int main()
 {
@@ -16,6 +16,7 @@ int main()
 
     scanf("HAND %[^\n]\n", param);
     Hand myHand = readHand(param);
+    
     int handSize = 7;
 
     scanf("TABLE %s\n", param);
@@ -28,7 +29,6 @@ int main()
         do // Listening
         {
             lastAct = currAct;
-
             scanf("%s %s", action, param);
             
             currAct = readAction(action);
@@ -61,8 +61,8 @@ int main()
             {
                 if (canPutTable(myHand[i], tableCard))
                 {
-                    myHand = discardAndUpdate(myHand, i, 7);
-                    handSize--;
+                    discard(myHand[i], &tableCard);
+                    dropCardAndUpdate(i, myHand, &handSize);
 
                     toBuy = 0;
                     break;
@@ -77,9 +77,7 @@ int main()
             for (int i = 0; i < toBuy; i++)
             {
                 scanf("%s", param);
-
-                myHand = addCardAndUpdate(readCard(param), myHand, handSize);
-                handSize++;
+                addCardAndUpdate(readCard(param), myHand, &handSize);
             }
         }
     }
