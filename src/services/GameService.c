@@ -94,15 +94,11 @@ void dropCardAndUpdate(int index, Hand hand, int* handSize)
         hand[i] = hand[i + 1];
     }
 
-    hand = realloc(hand, (*handSize - 1) * sizeof(Card));
-
     (*handSize)--;
 }
 
 void addCardAndUpdate(Card newCard, Hand hand, int* handSize)
 {
-   hand = realloc(hand, (*handSize + 1) * sizeof(Card));
-
     hand[*handSize] = newCard;
 
     (*handSize)++;
