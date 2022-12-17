@@ -78,18 +78,20 @@ void testGetCard()
         {4,HEARTS},
         {10,CLUBS},
         {C,SPADES},
-        {V,DIAMONDS}
+        {V,DIAMONDS},
+        {7,HEARTS}
     };
     
     test("Get a card str",
         strcmp(getCard(cards[0]), "4♥") == 0 &&
         strcmp(getCard(cards[1]), "10♣") == 0 &&
         strcmp(getCard(cards[2]), "C♠") == 0 &&
-        strcmp(getCard(cards[3]), "V♦") == 0
+        strcmp(getCard(cards[3]), "V♦") == 0 &&
+        strcmp(getCard(cards[4]), "7♥") == 0
     );
 }
 
-void testDiscardAndUpdate()
+void testdropCardAndUpdate()
 {
     Hand hand = malloc(6 * sizeof(Card));
     hand[0] = (Card){4,HEARTS};
@@ -106,14 +108,14 @@ void testDiscardAndUpdate()
 
     int handSize = 6;
 
-    discardAndUpdate(hand, 1, &handSize);
-    discardAndUpdate(hand, 1, &handSize);
-    discardAndUpdate(hand, 1, &handSize);
-    discardAndUpdate(hand, 1, &handSize);
+    dropCardAndUpdate(1, hand, &handSize);
+    dropCardAndUpdate(1, hand, &handSize);
+    dropCardAndUpdate(1, hand, &handSize);
+    dropCardAndUpdate(1, hand, &handSize);
 
     test("Discard and update hand",
         handSize == 2 &&
-        assertHandsEquals(hand, handAssert, 2)
+        assertHandsEquals(hand, handAssert, handSize)
     );
 }
 
@@ -141,7 +143,35 @@ void testAddAndUpdate()
 
     test("Add cards and update hand",
         handSize == 6 &&
-        assertHandsEquals(hand, handAssert, 6)
+        assertHandsEquals(hand, handAssert, handSize)
+    );
+}
+
+void testAndDropAndUpdate()
+{
+    Hand hand = malloc(2 * sizeof(Card));
+    hand[0] = (Card){6,HEARTS};
+    hand[1] = (Card){A,DIAMONDS};
+
+    Hand handAssert = (Card[]){
+        {6,HEARTS},
+        {A,DIAMONDS},
+        {V,SPADES},
+        {A,SPADES}
+    };
+
+    int handSize= 2;
+
+    addCardAndUpdate((Card){9,CLUBS}, hand, &handSize);
+    dropCardAndUpdate(2, hand, &handSize);
+    addCardAndUpdate((Card){8,DIAMONDS}, hand, &handSize);
+    dropCardAndUpdate(2, hand, &handSize);
+    addCardAndUpdate(handAssert[2], hand, &handSize);
+    addCardAndUpdate(handAssert[3], hand, &handSize);
+
+    test("Add and drop cards and update hand",
+        handSize == 4 &&
+        assertHandsEquals(hand, handAssert, handSize)
     );
 }
 
@@ -156,5 +186,6 @@ int main()
     testCanPutOnTable();
     testGetCard();
     testAddAndUpdate();
-    testDiscardAndUpdate();
+    testdropCardAndUpdate();
+    testAndDropAndUpdate();
 }
