@@ -4,16 +4,16 @@
 #include "../definitions/Game.h"
 #include "CardService.c"
 
-void debug(char *message, int value)
+void debugHand(Hand hand, int handSize)
 {
-    if (value < 0)
+    fprintf(stderr, "[ ");
+
+    for (int i = 0; i < handSize; i++)
     {
-        fprintf(stderr, "%s\n", message);
+        fprintf(stderr, "%s ", getCard(hand[i]));
     }
-    else
-    {
-        fprintf(stderr, "%s %d\n", message, value);
-    }
+
+    fprintf(stderr, "]\n");
 }
 
 Hand readHand(char* complement)
@@ -87,10 +87,8 @@ int checkTableToBuy(Card table)
     return 0;
 }
 
-void discardAndUpdate(Hand hand, int index, int* handSize)
+void dropCardAndUpdate(int index, Hand hand, int* handSize)
 {
-    discard(hand[index]);
-
     for (int i = index; i < *handSize - 1; i++)
     {
         hand[i] = hand[i + 1];
@@ -103,7 +101,7 @@ void discardAndUpdate(Hand hand, int index, int* handSize)
 
 void addCardAndUpdate(Card newCard, Hand hand, int* handSize)
 {
-    hand = realloc(hand, (*handSize + 1) * sizeof(Card));
+   hand = realloc(hand, (*handSize + 1) * sizeof(Card));
 
     hand[*handSize] = newCard;
 
