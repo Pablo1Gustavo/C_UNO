@@ -59,8 +59,11 @@ void buy(int n)
     printf("BUY %d\n", n);
 }
 
-void discard(Card card)
+void discard(Card card, Card* tableCard)
 {
+    tableCard->value = card.value;
+    tableCard->suit = card.suit;
+
     printf("DISCARD %s", getCard(card));
 
     if (canChangeColor(card))
