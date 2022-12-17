@@ -93,7 +93,7 @@ void testGetCard()
 
 void testdropCardAndUpdate()
 {
-    Hand hand = malloc(6 * sizeof(Card));
+    Hand hand = malloc(MAX_HAND_SIZE * sizeof(Card));
     hand[0] = (Card){4,HEARTS};
     hand[1] = (Card){10,CLUBS};
     hand[2] = (Card){C,SPADES};
@@ -117,11 +117,13 @@ void testdropCardAndUpdate()
         handSize == 2 &&
         assertHandsEquals(hand, handAssert, handSize)
     );
+
+    free(hand);
 }
 
 void testAddAndUpdate()
 {
-    Hand hand = malloc(2 * sizeof(Card));
+    Hand hand = malloc(MAX_HAND_SIZE * sizeof(Card));
     hand[0] = (Card){4,HEARTS};
     hand[1] = (Card){10,CLUBS};
 
@@ -145,11 +147,13 @@ void testAddAndUpdate()
         handSize == 6 &&
         assertHandsEquals(hand, handAssert, handSize)
     );
+
+    free(hand);
 }
 
 void testAndDropAndUpdate()
 {
-    Hand hand = malloc(2 * sizeof(Card));
+    Hand hand = malloc(MAX_HAND_SIZE * sizeof(Card));
     hand[0] = (Card){6,HEARTS};
     hand[1] = (Card){A,DIAMONDS};
 
@@ -164,8 +168,10 @@ void testAndDropAndUpdate()
 
     addCardAndUpdate((Card){9,CLUBS}, hand, &handSize);
     dropCardAndUpdate(2, hand, &handSize);
+
     addCardAndUpdate((Card){8,DIAMONDS}, hand, &handSize);
     dropCardAndUpdate(2, hand, &handSize);
+
     addCardAndUpdate(handAssert[2], hand, &handSize);
     addCardAndUpdate(handAssert[3], hand, &handSize);
 
@@ -173,6 +179,8 @@ void testAndDropAndUpdate()
         handSize == 4 &&
         assertHandsEquals(hand, handAssert, handSize)
     );
+
+    free(hand);
 }
 
 int main()
