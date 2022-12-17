@@ -9,6 +9,7 @@
 #define MAX_LINE 100
 #define MAX_ACTION 10
 #define MAX_ID_SIZE 10
+#define MAX_HAND_SIZE 200
 
 typedef enum GameAction {
     SAY, DISCARD, BUY, TURN

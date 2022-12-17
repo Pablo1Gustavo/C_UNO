@@ -25,7 +25,7 @@ Hand readHand(char* complement)
         if (complement[i] == ' ') cardsNum++;
     }
 
-    Hand hand = malloc(cardsNum * sizeof(Card));
+    Hand hand = malloc(MAX_HAND_SIZE * sizeof(Card));
 
     char* t = strtok(strdup(complement), " ");
     
