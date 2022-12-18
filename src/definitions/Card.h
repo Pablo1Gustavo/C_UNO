@@ -1,7 +1,7 @@
 #ifndef CARD_DEF
 #define CARD_DEF
 
-typedef enum CardValue {
+typedef enum {
     A = 0,
     // 1..10
     V = 11,
@@ -12,14 +12,14 @@ typedef enum CardValue {
 Value;
 
 // ♦ ♣ ♥ ♠
-typedef enum CardSuit {
+typedef enum {
     DIAMONDS,
     CLUBS,
     HEARTS,
     SPADES
 } Suit;
 
-typedef struct Card
+typedef struct
 {
     Value value;
     Suit suit;

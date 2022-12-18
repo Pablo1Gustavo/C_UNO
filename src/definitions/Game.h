@@ -11,7 +11,7 @@
 #define MAX_ID_SIZE 10
 #define MAX_HAND_SIZE 200
 
-typedef enum GameAction {
+typedef enum {
     SAY, DISCARD, BUY, TURN
 } Action;
 
