@@ -1,6 +1,9 @@
 #ifndef CARD_DEF
 #define CARD_DEF
 
+#define VALUES_NUM 15
+#define SUITS_NUM 4
+
 typedef enum {
     A = 0,
     // 1..10
