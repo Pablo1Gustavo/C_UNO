@@ -23,12 +23,12 @@ int main()
     Card tableCard = readCard(param);
 
     Action currAct;
-    Action lastAct;
+    bool tableChecked;
 
     while (1) {
         do // Listening
         {
-            lastAct = currAct;
+            tableChecked = false;
             scanf("%s %s", action, param);
             
             currAct = readAction(action);
@@ -46,12 +46,14 @@ int main()
             else if (currAct == BUY)
             {
                 scanf("%[^\n]s", param);
+                
+                tableChecked = true;
             }
 
         } while (currAct != TURN || !checkMyTurn(param, myID));
 
         // My turn
-        int toBuy = checkTableToBuy(tableCard);
+        int toBuy = checkTableToBuy(tableCard, &tableChecked);
 
         if (toBuy == 0)
         {

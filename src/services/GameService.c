@@ -79,10 +79,14 @@ bool checkMyTurn(char* id, char* myID)
     return strcasecmp(id, myID) == 0;
 }
 
-int checkTableToBuy(Card table)
+int checkTableToBuy(Card table, bool* tableChecked)
 {
-    if (table.value == V) return 2;
-    if (table.value == C) return 4;
+    if (*tableChecked) return 0;
+
+    *tableChecked = true;
+
+    if (table.value == V)   return 2;
+    if (table.value == C)   return 4;
 
     return 0;
 }
