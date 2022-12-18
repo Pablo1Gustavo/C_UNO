@@ -1,6 +1,7 @@
 #include "testUtils.c"
 #include "../services/CardService.c"
 #include "../services/GameService.c"
+#include "../services/PredictorService.c"
 
 void testDeclareCard()
 {
@@ -43,6 +44,8 @@ void testReadHand()
     test("Read the hand",
         assertHandsEquals(hand, handAssert, 4)
     );
+    
+    free(hand);
 }
 
 void testReadAction()
@@ -183,6 +186,53 @@ void testAndDropAndUpdate()
     free(hand);
 }
 
+void testInitSelfAnalyzer()
+{
+    Hand hand = malloc(MAX_HAND_SIZE * sizeof(Card));
+    hand[0] = (Card){4,HEARTS};
+    hand[1] = (Card){10,CLUBS};
+    hand[2] = (Card){C,SPADES};
+    hand[3] = (Card){V,DIAMONDS};
+    hand[4] = (Card){A,HEARTS};
+    hand[5] = (Card){10,DIAMONDS};
+
+    Analyzer analyzer;
+
+    initAnalyzer(&analyzer, hand, 6);
+
+    test("Init self analyzer",
+        analyzer.values[10] == 2 &&
+        analyzer.values[C] == 1 &&
+        analyzer.values[R] == 0 &&
+        analyzer.suits[DIAMONDS] == 2 &&
+        analyzer.suits[SPADES] == 1
+    );
+
+    free(hand);
+}
+
+void testInitOpponentAnalyzer()
+{
+    Analyzer analyzer;
+
+    initAnalyzer(&analyzer, NULL, 0);
+
+    bool assertAll = true;
+
+    for (int i = 0; i < VALUES_NUM; i++)
+    {
+        assertAll &= analyzer.values[i] == 0;
+    }
+    for (int i = 0; i < SUITS_NUM; i++)
+    {
+        assertAll &= analyzer.suits[i] == 0;
+    }
+
+    test("Init opponent analyzer",
+        assertAll
+    );
+}
+
 int main()
 {
     printf("===[ TESTS ]===\n");
@@ -196,4 +246,5 @@ int main()
     testAddAndUpdate();
     testdropCardAndUpdate();
     testAndDropAndUpdate();
+    testInitSelfAnalyzer();
 }
