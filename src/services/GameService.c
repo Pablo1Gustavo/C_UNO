@@ -1,5 +1,5 @@
-#ifndef GAME_CONTROLLER
-#define GAME_CONTROLLER
+#ifndef GAME_SERVICE
+#define GAME_SERVICE
 
 #include "../definitions/Game.h"
 #include "CardService.c"

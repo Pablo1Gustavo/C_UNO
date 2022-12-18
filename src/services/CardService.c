@@ -1,5 +1,5 @@
-#ifndef CARD_CONTROLLER
-#define CARD_CONTROLLER
+#ifndef CARD_SERVICE
+#define CARD_SERVICE
 
 #include <stdlib.h>
 #include <stdbool.h>
