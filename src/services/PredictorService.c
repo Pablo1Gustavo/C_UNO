@@ -17,4 +17,16 @@ void initAnalyzer(Analyzer* analyzer, Hand hand, int handSize)
     }
 }
 
+void analyzeNew(Analyzer* analyzer, Card card)
+{
+    analyzer->values[card.value]++;
+    analyzer->suits[card.suit]++;
+}
+
+void revertAnalyzer(Analyzer* analyzer, Card card)
+{
+    analyzer->values[card.value]--;
+    analyzer->suits[card.suit]--;
+}
+
 #endif
