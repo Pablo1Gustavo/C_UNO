@@ -35,7 +35,6 @@ int main()
     while (1) {
         do // Listening
         {
-            tableChecked = false;
             scanf("%s %s", action, param);
             
             currAct = readAction(action);
@@ -44,11 +43,15 @@ int main()
             {
                 tableCard = readCard(param);
 
+                analyzeNew(&opponentAnalyzer, tableCard);
+
                 if (canChangeColor(tableCard))
                 {
                     scanf("%s", param);
                     tableCard.suit = readSuit(param);
                 }
+
+                tableChecked = false;
             }
             else if (currAct == BUY)
             {
@@ -66,16 +69,16 @@ int main()
         {
             toBuy = 1;
 
-            for (int i = 0; i < handSize; i++)
-            {
-                if (canPutTable(myHand[i], tableCard))
-                {
-                    discard(myHand[i], &tableCard);
-                    dropCardAndUpdate(i, myHand, &handSize);
+            int index = chooseCard(selfAnalyzer, opponentAnalyzer, tableCard, myHand, handSize);
 
-                    toBuy = 0;
-                    break;
-                }
+            if (index != -1)
+            {
+                revertAnalyzer(&selfAnalyzer, myHand[index]);
+
+                discard(myHand[index], &tableCard, selfAnalyzer);
+                dropCardAndUpdate(index, myHand, &handSize);
+
+                toBuy = 0;
             }
         }
         if (toBuy > 0)
@@ -86,7 +89,11 @@ int main()
             for (int i = 0; i < toBuy; i++)
             {
                 scanf("%s", param);
-                addCardAndUpdate(readCard(param), myHand, &handSize);
+
+                Card newCard = readCard(param);
+                analyzeNew(&selfAnalyzer, newCard);
+
+                addCardAndUpdate(newCard, myHand, &handSize);
             }
         }
     }
