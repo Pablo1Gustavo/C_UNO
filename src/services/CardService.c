@@ -53,31 +53,31 @@ bool canChangeColor(Card card)
     return card.value == A || card.value == C;
 }
 
-char* getValue(Card card)
+char* getValue(Value value)
 {
     char values[][2] = {"A","1","2","3","4","5","6","7","8","9","10","V","D","R","C"};
 
-    char* value = values[card.value];
+    char* strValue = values[value];
 
-    return value;
+    return strValue;
 }
 
-char* getSuit(Card card)
+char* getSuit(Suit suit)
 {
     char suits[][4] = {"♦","♣","♥","♠"};
 
-    char* suit = suits[card.suit];
+    char* strSuit = suits[suit];
 
-    return suit;
+    return strSuit;
 }
 
 char* getCard(Card card)
 {
     char* result = malloc(6 * sizeof(char));
 
-    strncpy(result, getValue(card), 2);
+    strncpy(result, getValue(card.value), 2);
 
-    strcpy(result + 1 + (card.value == 10), getSuit(card));
+    strcpy(result + 1 + (card.value == 10), getSuit(card.suit));
 
     return result;
 }
