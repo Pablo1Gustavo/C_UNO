@@ -2,6 +2,7 @@
 #define PREDICTOR_SERVICE
 
 #include <string.h>
+#include <limits.h>
 
 #include "CardService.c"
 #include "../definitions/Predictor.h"
@@ -45,17 +46,17 @@ Suit chooseSuit(Analyzer self)
     return desired;
 }
 
-float calcStatus(Analyzer self, Analyzer oppoent, Card card, bool isValue)
+int calcStatus(Analyzer self, Analyzer oppoent, Card card, bool isValue)
 {
     if (isValue)
     {
-        float valueStatus = self.values[card.value] * SELF_WEIGHT;
+        int valueStatus = self.values[card.value] * SELF_WEIGHT;
         valueStatus -= oppoent.values[card.value] * OPPONENT_WEIGHT;
 
         return valueStatus;
     }
 
-    float suitStatus = self.suits[card.suit] * SELF_WEIGHT;
+    int suitStatus = self.suits[card.suit] * SELF_WEIGHT;
     suitStatus -= oppoent.suits[card.suit] * OPPONENT_WEIGHT;
 
     return suitStatus;
@@ -63,15 +64,15 @@ float calcStatus(Analyzer self, Analyzer oppoent, Card card, bool isValue)
 
 int chooseCard(Analyzer self, Analyzer opponent, Card table, Hand hand, int handSize)
 {
-    float max = 0;
+    int max = INT_MIN;
     int maxIndex = -1;
 
     for (int i = 0; i < handSize; i++)
     {
         if (canPutTable(hand[i], table))
         {
-            float currValueStatus   = calcStatus(self, opponent, hand[i], 1);
-            float currSuitStatus    = calcStatus(self, opponent, hand[i], 0);
+            int currValueStatus   = calcStatus(self, opponent, hand[i], 1);
+            int currSuitStatus    = calcStatus(self, opponent, hand[i], 0);
 
             if (currValueStatus + currSuitStatus > max)
             {
