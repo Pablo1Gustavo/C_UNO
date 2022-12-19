@@ -3,7 +3,7 @@
 #include "../services/GameService.c"
 #include "../services/PredictorService.c"
 
-void testDeclareCard()
+void test_declare_card()
 {
     Card card;
     card.suit = DIAMONDS;
@@ -14,7 +14,7 @@ void testDeclareCard()
     );
 }
 
-void testReadCard()
+void test_read_card()
 {
     Card card1 = readCard("4♥");
     Card card2 = readCard("10♣");
@@ -29,7 +29,7 @@ void testReadCard()
     );
 }
 
-void testReadHand()
+void test_read_hand()
 {
     Hand hand = readHand("[ 4♥ 10♣ C♠ V♦ A♥ ]");
 
@@ -48,7 +48,7 @@ void testReadHand()
     free(hand);
 }
 
-void testReadAction()
+void test_read_action()
 {
     test("Read the action",
         readAction("SAY") == SAY &&
@@ -58,7 +58,7 @@ void testReadAction()
     );
 }
 
-void testCanPutOnTable()
+void test_can_put_on_table()
 {
     Card cards[] = {
         {4,HEARTS},
@@ -75,7 +75,7 @@ void testCanPutOnTable()
     );
 }
 
-void testGetCard()
+void test_get_card()
 {
     Card cards[] = {
         {4,HEARTS},
@@ -94,7 +94,7 @@ void testGetCard()
     );
 }
 
-void testdropCardAndUpdate()
+void test_drop_card_and_update()
 {
     Hand hand = malloc(MAX_HAND_SIZE * sizeof(Card));
     hand[0] = (Card){4,HEARTS};
@@ -124,7 +124,7 @@ void testdropCardAndUpdate()
     free(hand);
 }
 
-void testAddAndUpdate()
+void test_add_and_update()
 {
     Hand hand = malloc(MAX_HAND_SIZE * sizeof(Card));
     hand[0] = (Card){4,HEARTS};
@@ -154,7 +154,7 @@ void testAddAndUpdate()
     free(hand);
 }
 
-void testAndDropAndUpdate()
+void test_add_drop_and_update()
 {
     Hand hand = malloc(MAX_HAND_SIZE * sizeof(Card));
     hand[0] = (Card){6,HEARTS};
@@ -186,7 +186,7 @@ void testAndDropAndUpdate()
     free(hand);
 }
 
-void testInitSelfAnalyzer()
+void test_init_self_analyzer()
 {
     Hand hand = malloc(MAX_HAND_SIZE * sizeof(Card));
     hand[0] = (Card){4,HEARTS};
@@ -211,7 +211,7 @@ void testInitSelfAnalyzer()
     free(hand);
 }
 
-void testInitOpponentAnalyzer()
+void test_init_opponent_analyzer()
 {
     Analyzer analyzer;
 
@@ -233,18 +233,42 @@ void testInitOpponentAnalyzer()
     );
 }
 
+void test_new_and_revert_analyzer()
+{
+    Analyzer analyzer;
+
+    initAnalyzer(&analyzer, NULL, 0);
+    
+    analyzeNew(&analyzer, (Card){A,CLUBS});
+    analyzeNew(&analyzer, (Card){10,CLUBS});
+    analyzeNew(&analyzer, (Card){4,HEARTS});
+    analyzeNew(&analyzer, (Card){4,HEARTS});
+
+    revertAnalyzer(&analyzer, (Card){4,HEARTS});
+
+    test("Add new and revert analyzer",
+        analyzer.values[4] == 1 &&
+        analyzer.values[A] == 1 &&
+        analyzer.values[10] == 1 &&
+        analyzer.suits[CLUBS] == 2 &&
+        analyzer.suits[HEARTS] == 1
+    );
+}
+
 int main()
 {
     printf("===[ TESTS ]===\n");
     
-    testDeclareCard();
-    testReadCard();
-    testReadHand();
-    testReadAction();
-    testCanPutOnTable();
-    testGetCard();
-    testAddAndUpdate();
-    testdropCardAndUpdate();
-    testAndDropAndUpdate();
-    testInitSelfAnalyzer();
+    test_declare_card();
+    test_read_card();
+    test_read_hand();
+    test_read_action();
+    test_can_put_on_table();
+    test_get_card();
+    test_add_and_update();
+    test_drop_card_and_update();
+    test_add_drop_and_update();
+    test_init_self_analyzer();
+    test_init_opponent_analyzer();
+    test_new_and_revert_analyzer();
 }
