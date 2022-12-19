@@ -219,13 +219,13 @@ void test_init_opponent_analyzer()
 
     bool assertAll = true;
 
-    for (int i = 0; i < VALUES_NUM; i++)
+    for (Value v = 0; v < VALUES_NUM; v++)
     {
-        assertAll &= analyzer.values[i] == 0;
+        assertAll &= analyzer.values[v] == 0;
     }
-    for (int i = 0; i < SUITS_NUM; i++)
+    for (Suit s = 0; s < SUITS_NUM; s++)
     {
-        assertAll &= analyzer.suits[i] == 0;
+        assertAll &= analyzer.suits[s] == 0;
     }
 
     test("Init opponent analyzer",
