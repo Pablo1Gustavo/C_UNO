@@ -55,8 +55,6 @@ int main()
             }
             else if (currAct == BUY)
             {
-                scanf("%[^\n]s", param);
-                
                 tableChecked = true;
             }
 
@@ -91,8 +89,8 @@ int main()
                 scanf("%s", param);
 
                 Card newCard = readCard(param);
+                
                 analyzeNew(&selfAnalyzer, newCard);
-
                 addCardAndUpdate(newCard, myHand, &handSize);
             }
         }
