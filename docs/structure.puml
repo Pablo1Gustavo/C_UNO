@@ -1,5 +1,6 @@
 @startuml structure
 title Uno player bot diagram
+left to right direction
 
 enum Value {
     A
@@ -57,6 +58,21 @@ interface GameService {
     void addCardAndUpdate(Card newCard, Hand hand, int* handSize)
 }
 
+struct Analyzer {
+    int values[VALUES_NUM];
+    int suits[SUITS_NUM];
+}
+
+interface PredictorService {
+    void initAnalyzer(Analyzer* analyzer, Hand hand, int handSize)
+    void analyzeNew(Analyzer* analyzer, Card card)
+    void revertAnalyzer(Analyzer* analyzer, Card card)
+    --
+    Suit chooseSuit(Analyzer self)
+    int calcStatus(Analyzer self, Analyzer oppoent, Card card, bool isValue)
+    int chooseCard(Analyzer self, Analyzer opponent, Card table, Hand hand, int handSize)
+}
+
 Value ..> Card
 Suit ..> Card
 
@@ -65,5 +81,10 @@ Card .> CardService
 Card .> GameService
 CardService -> GameService
 Action .> GameService
+
+Analyzer .> PredictorService
+Card .> PredictorService
+
+PredictorService --> GameService
 
 @enduml
