@@ -233,6 +233,28 @@ void testInitOpponentAnalyzer()
     );
 }
 
+void test_new_and_revert_analyzer()
+{
+    Analyzer analyzer;
+
+    initAnalyzer(&analyzer, NULL, 0);
+    
+    analyzeNew(&analyzer, (Card){A,CLUBS});
+    analyzeNew(&analyzer, (Card){10,CLUBS});
+    analyzeNew(&analyzer, (Card){4,HEARTS});
+    analyzeNew(&analyzer, (Card){4,HEARTS});
+
+    revertAnalyzer(&analyzer, (Card){4,HEARTS});
+
+    test("Add new and revert analyzer",
+        analyzer.values[4] == 1 &&
+        analyzer.values[A] == 1 &&
+        analyzer.values[10] == 1 &&
+        analyzer.suits[CLUBS] == 2 &&
+        analyzer.suits[HEARTS] == 1
+    );
+}
+
 int main()
 {
     printf("===[ TESTS ]===\n");
@@ -247,4 +269,5 @@ int main()
     testdropCardAndUpdate();
     testAndDropAndUpdate();
     testInitSelfAnalyzer();
+    test_new_and_revert_analyzer();
 }
