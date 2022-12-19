@@ -1,4 +1,5 @@
 #include "services/GameService.c"
+#include "services/PredictorService.c"
 
 int main()
 {
@@ -9,6 +10,9 @@ int main()
     char myID[MAX_ID_SIZE];
     char param[MAX_LINE];
     char action[MAX_ACTION];
+
+    Analyzer opponentAnalyzer;
+    Analyzer selfAnalyzer;
 
     scanf("PLAYERS %[^\n]\n", param);
 
@@ -21,6 +25,9 @@ int main()
 
     scanf("TABLE %s\n", param);
     Card tableCard = readCard(param);
+
+    initAnalyzer(&selfAnalyzer, myHand, handSize);
+    initAnalyzer(&opponentAnalyzer, NULL, 0);
 
     Action currAct;
     bool tableChecked;
