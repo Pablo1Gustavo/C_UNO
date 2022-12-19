@@ -3,6 +3,7 @@
 
 #include "../definitions/Game.h"
 #include "CardService.c"
+#include "PredictorService.c"
 
 void debugHand(Hand hand, int handSize)
 {
@@ -59,7 +60,7 @@ void buy(int n)
     printf("BUY %d\n", n);
 }
 
-void discard(Card card, Card* tableCard)
+void discard(Card card, Card* tableCard, Analyzer self)
 {
     tableCard->value = card.value;
     tableCard->suit = card.suit;
@@ -68,7 +69,7 @@ void discard(Card card, Card* tableCard)
 
     if (canChangeColor(card))
     {
-        printf(" %s", getSuit(card));
+        printf(" %s", getSuit(chooseSuit(self)));
     }
 
     printf("\n");
