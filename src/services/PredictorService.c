@@ -3,8 +3,9 @@
 
 #include <string.h>
 #include <limits.h>
+#include <stdbool.h>
 
-#include "CardService.c"
+#include "../definitions/Card.h"
 #include "../definitions/Predictor.h"
 
 void initAnalyzer(Analyzer* analyzer, Hand hand, int handSize)

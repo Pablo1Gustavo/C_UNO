@@ -3,7 +3,8 @@
 
 #include "Card.h"
 
-#define SELF_WEIGHT 1
+// int weights to avoid the prediction
+#define SELF_WEIGHT 10
 #define OPPONENT_WEIGHT 0
 
 // map to count values and suits
