@@ -4,7 +4,7 @@ import subprocess
 
 you = "main"
 opp = "sample_a"
-command = ['../../uno', '../'+opp, '../'+you, '-q']
+command = ['../uno', '../bots/'+opp, '../bots/'+you, '-q']
 
 games = 1000
 wins = 0
