@@ -69,9 +69,9 @@ void test_can_put_on_table()
 
     test("Check if can put card on table",
         canPutTable(cards[0], cards[1]) &&
-        canPutTable(cards[0], cards[2]) &&
+        canPutTable(cards[2], cards[3]) &&
         !canPutTable(cards[0], cards[3]) &&
-        !canPutTable(cards[2], cards[3])
+        !canPutTable(cards[1], cards[3])
     );
 }
 
@@ -255,6 +255,25 @@ void test_new_and_revert_analyzer()
     );
 }
 
+void test_get_max_suit_frequency()
+{
+    Hand hand = malloc(MAX_HAND_SIZE * sizeof(Card));
+    hand[0] = (Card){4,DIAMONDS};
+    hand[1] = (Card){10,CLUBS};
+    hand[2] = (Card){C,SPADES};
+    hand[3] = (Card){V,DIAMONDS};
+    hand[4] = (Card){A,HEARTS};
+    hand[5] = (Card){10,DIAMONDS};
+
+    Analyzer analyzer;
+
+    initAnalyzer(&analyzer, hand, 6);
+
+    test("Get max suit frequency",
+        getMaxSuitFrequency(analyzer, 6) == 50
+    );
+}
+
 int main()
 {
     printf("===[ TESTS ]===\n");
@@ -271,4 +290,5 @@ int main()
     test_init_self_analyzer();
     test_init_opponent_analyzer();
     test_new_and_revert_analyzer();
+    test_get_max_suit_frequency();
 }
