@@ -69,7 +69,7 @@ void discard(Card card, Card* tableCard, Analyzer self)
 
     if (canChangeColor(card))
     {
-        printf(" %s", getSuit(chooseSuit(self)));
+        printf(" %s", getSuit(chooseMaxSuit(self)));
     }
 
     printf("\n");
