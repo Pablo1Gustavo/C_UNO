@@ -43,9 +43,14 @@ Card readCard(char* cardIn)
     return card;
 }
 
+bool isBlackCard(Card card)
+{
+    return card.value == C || card.value == A;
+}
+
 bool canPutTable(Card card, Card table)
 {
-    return card.suit == table.suit || card.value == table.value;
+    return card.suit == table.suit || card.value == table.value || isBlackCard(card);
 }
 
 bool canChangeColor(Card card)
