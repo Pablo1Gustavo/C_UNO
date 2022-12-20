@@ -47,18 +47,18 @@ Suit chooseSuit(Analyzer self)
     return desired;
 }
 
-int calcStatus(Analyzer self, Analyzer oppoent, Card card, bool isValue)
+int valueStatus(Analyzer self, Analyzer oppoent, Value value)
 {
-    if (isValue)
-    {
-        int valueStatus = self.values[card.value] * SELF_WEIGHT;
-        valueStatus -= oppoent.values[card.value] * OPPONENT_WEIGHT;
+    int valueStatus = self.values[value] * SELF_WEIGHT;
+    valueStatus -= oppoent.values[value] * OPPONENT_WEIGHT;
 
-        return valueStatus;
-    }
+    return valueStatus;
+}
 
-    int suitStatus = self.suits[card.suit] * SELF_WEIGHT;
-    suitStatus -= oppoent.suits[card.suit] * OPPONENT_WEIGHT;
+int suitStatus(Analyzer self, Analyzer oppoent, Suit suit)
+{
+    int suitStatus = self.suits[suit] * SELF_WEIGHT;
+    suitStatus -= oppoent.suits[suit] * OPPONENT_WEIGHT;
 
     return suitStatus;
 }
@@ -72,8 +72,8 @@ int chooseCard(Analyzer self, Analyzer opponent, Card table, Hand hand, int hand
     {
         if (canPutTable(hand[i], table))
         {
-            int currValueStatus   = calcStatus(self, opponent, hand[i], 1);
-            int currSuitStatus    = calcStatus(self, opponent, hand[i], 0);
+            int currValueStatus = valueStatus(self, opponent, hand[i].value);
+            int currSuitStatus = suitStatus(self, opponent, hand[i].suit);
 
             if (currValueStatus + currSuitStatus > max)
             {
