@@ -3,7 +3,7 @@ import os
 import subprocess
 
 you = "main"
-opp = "sample_a"
+opp = "yugi"
 command = ['../uno', '../bots/'+opp, '../bots/'+you, '-q']
 
 games = 1000
@@ -16,7 +16,7 @@ for i in range(1, games + 1):
     print(
         '█' * (i // (games // 25)) +
         '▒' * (25 - i // (games // 25)),
-        '%.1f%%'% (i / games * 100)
+        '%.1f%%\n'% (i / games * 100)
     )
 
     result = subprocess.run(command, stdout=subprocess.PIPE)
@@ -24,13 +24,13 @@ for i in range(1, games + 1):
 
     fst, snd = result[-3], result[-2]
 
-    finalYou = int(re.findall(r'-?\d', fst)[1])
-    finalOpp = int(re.findall(r'-?\d', snd)[1])
+    youCards = int(re.findall(r'-?\d', fst)[1])
+    oppCards = int(re.findall(r'-?\d', snd)[1])
 
     if you in fst:
         wins += 1
     else:
-        finalYou, finalOpp = finalOpp, finalYou
+        youCards, oppCards = youCards, oppCards
 
     balance += finalYou - finalOpp
 
