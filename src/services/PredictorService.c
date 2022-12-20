@@ -32,7 +32,7 @@ void revertAnalyzer(Analyzer* analyzer, Card card)
     analyzer->suits[card.suit]--;
 }
 
-Suit chooseSuit(Analyzer self)
+Suit chooseMaxSuit(Analyzer self)
 {
     Suit desired = DIAMONDS;
 
@@ -47,10 +47,47 @@ Suit chooseSuit(Analyzer self)
     return desired;
 }
 
+
+int findCardByValue(Value value, Card table, Hand hand, int handSize)
+{
+    for (int i = 0; i < handSize; i++)
+    {
+        if (canPutTable(hand[i], table) && hand[i].value == value)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int chooseSpecialCard(Card table, Hand hand, int handSize)
+{
+    int index_C = findCardByValue(C, table, hand, handSize);
+
+    if (index_C > 0) return index_C;
+
+    int index_V = findCardByValue(V, table, hand, handSize);
+
+    if (index_V > 0) return index_V;
+
+    int index_R = findCardByValue(R, table, hand, handSize);
+
+    if (index_R > 0) return index_R;
+
+    return -1;
+}
+
+int getMaxSuitFrequency(Analyzer self, int handSize)
+{
+    float maxFrequency = self.suits[chooseMaxSuit(self)] / (float)handSize;
+
+    return maxFrequency * 100;
+}
+
 int valueStatus(Analyzer self, Analyzer oppoent, Value value)
 {
     int valueStatus = self.values[value] * SELF_WEIGHT;
-    valueStatus -= oppoent.values[value] * OPPONENT_WEIGHT;
+    valueStatus -= oppoent.values[value] * OPP_WEIGHT;
 
     return valueStatus;
 }
@@ -58,15 +95,36 @@ int valueStatus(Analyzer self, Analyzer oppoent, Value value)
 int suitStatus(Analyzer self, Analyzer oppoent, Suit suit)
 {
     int suitStatus = self.suits[suit] * SELF_WEIGHT;
-    suitStatus -= oppoent.suits[suit] * OPPONENT_WEIGHT;
+    suitStatus -= oppoent.suits[suit] * OPP_WEIGHT;
 
     return suitStatus;
+}
+
+
+// random number between 0 and 100
+int randomPercentage(int auxSeed)
+{
+    srand(time(NULL) + auxSeed);
+
+    return rand() % 101;
 }
 
 int chooseCard(Analyzer self, Analyzer opponent, Card table, Hand hand, int handSize)
 {
     int max = INT_MIN;
-    int maxIndex = -1;
+    int maxIndex = chooseSpecialCard(table, hand, handSize);
+
+    if (maxIndex > 0 && randomPercentage(handSize) < CHOOSE_SPEC_CARD_PROB) 
+    {
+        return maxIndex;
+    }
+
+    int index_A =  findCardByValue(A, table, hand, handSize);
+
+    if (index_A > 0 && handSize / getMaxSuitFrequency(self, handSize) > DESIRED_SUIT_FREQ)
+    {
+        return index_A;
+    }
 
     for (int i = 0; i < handSize; i++)
     {
