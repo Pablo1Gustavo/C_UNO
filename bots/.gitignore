@@ -1,3 +1,6 @@
 *
-!.gitignore
-!sample_*
+!sample_a
+!sample_b
+
+!/scripts
+!/scripts/*
