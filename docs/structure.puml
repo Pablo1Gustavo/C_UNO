@@ -39,6 +39,7 @@ interface CardService {
     char* getSuit(Card card)
     char* getCard(Card card)
     --
+    bool isBlackCard(Card card)
     bool canPutTable(Card card, Card table)
     bool canChangeColor(Card card)
 }
@@ -49,7 +50,7 @@ interface GameService {
     --
     void say(char* message)
     void buy(int n)
-    void discard(Card card, Card* tableCard)
+    void discard(Card card, Card* tableCard, Analyzer you)
     --
     bool checkMyTurn(char* id, char* myID)
     int checkTableToBuy(Card table)
@@ -68,9 +69,16 @@ interface PredictorService {
     void analyzeNew(Analyzer* analyzer, Card card)
     void revertAnalyzer(Analyzer* analyzer, Card card)
     --
-    Suit chooseSuit(Analyzer self)
-    int calcStatus(Analyzer self, Analyzer oppoent, Card card, bool isValue)
-    int chooseCard(Analyzer self, Analyzer opponent, Card table, Hand hand, int handSize)
+    Suit chooseMaxSuit(Analyzer you)
+    --
+    int findCardByValue(Value value, Card table, Hand hand, int handSize)
+    int chooseSpecialCard(Card table, Hand hand, int handSize)
+    int getMaxSuitFrequency(Analyzer you, int handSize)
+    --
+    int randomPercentage(int auxSeed)
+    int valueStatus(Analyzer you, Analyzer oppoent, Value value)
+    int suitStatus(Analyzer you, Analyzer oppoent, Suit suit)
+    int chooseCard(Analyzer you, Analyzer opponent, Card table, Hand hand, int handSize)
 }
 
 Value ..> Card
