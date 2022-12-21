@@ -3,7 +3,7 @@ import os
 import subprocess
 
 you = "main"
-opp = "yugi"
+opp = "sample_a"
 command = ['../uno', '../bots/'+opp, '../bots/'+you, '-q']
 
 games = 1000
