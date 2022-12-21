@@ -6,7 +6,7 @@ you = "main"
 opp = "sample_a"
 command = ['../uno', '../bots/'+opp, '../bots/'+you, '-q']
 
-games = 200
+games = 1000
 wins = 0
 balance = 0
 
@@ -30,7 +30,7 @@ for i in range(1, games + 1):
     if you in fst:
         wins += 1
     else:
-        youCards, oppCards = youCards, oppCards
+        youCards, oppCards = oppCards, youCards
 
     balance += youCards - oppCards
 
