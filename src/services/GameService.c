@@ -5,18 +5,6 @@
 #include "CardService.c"
 #include "PredictorService.c"
 
-void debugHand(Hand hand, int handSize)
-{
-    fprintf(stderr, "[ ");
-
-    for (int i = 0; i < handSize; i++)
-    {
-        fprintf(stderr, "%s ", getCard(hand[i]));
-    }
-
-    fprintf(stderr, "]\n");
-}
-
 Hand readHand(char* complement)
 {
     int cardsNum = 0;
