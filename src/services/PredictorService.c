@@ -32,13 +32,13 @@ void revertAnalyzer(Analyzer* analyzer, Card card)
     analyzer->suits[card.suit]--;
 }
 
-Suit chooseMaxSuit(Analyzer self)
+Suit chooseMaxSuit(Analyzer you)
 {
     Suit desired = DIAMONDS;
 
     for (Suit s = 0; s < SUITS_NUM; s++)
     {
-        if (self.suits[s] > self.suits[desired])
+        if (you.suits[s] > you.suits[desired])
         {
             desired = s;
         }
@@ -77,29 +77,12 @@ int chooseSpecialCard(Card table, Hand hand, int handSize)
     return -1;
 }
 
-int getMaxSuitFrequency(Analyzer self, int handSize)
+int getMaxSuitFrequency(Analyzer you, int handSize)
 {
-    float maxFrequency = self.suits[chooseMaxSuit(self)] / (float)handSize;
+    float maxFrequency = you.suits[chooseMaxSuit(you)] / (float)handSize;
 
     return maxFrequency * 100;
 }
-
-int valueStatus(Analyzer self, Analyzer oppoent, Value value)
-{
-    int valueStatus = self.values[value] * SELF_WEIGHT;
-    valueStatus -= oppoent.values[value] * OPP_WEIGHT;
-
-    return valueStatus;
-}
-
-int suitStatus(Analyzer self, Analyzer oppoent, Suit suit)
-{
-    int suitStatus = self.suits[suit] * SELF_WEIGHT;
-    suitStatus -= oppoent.suits[suit] * OPP_WEIGHT;
-
-    return suitStatus;
-}
-
 
 // random number between 0 and 100
 int randomPercentage(int auxSeed)
@@ -109,7 +92,23 @@ int randomPercentage(int auxSeed)
     return rand() % 101;
 }
 
-int chooseCard(Analyzer self, Analyzer opponent, Card table, Hand hand, int handSize)
+int valueStatus(Analyzer you, Analyzer oppoent, Value value)
+{
+    int valueStatus = you.values[value] * YOU_WEIGHT;
+    valueStatus -= oppoent.values[value] * OPP_WEIGHT;
+
+    return valueStatus;
+}
+
+int suitStatus(Analyzer you, Analyzer oppoent, Suit suit)
+{
+    int suitStatus = you.suits[suit] * YOU_WEIGHT;
+    suitStatus -= oppoent.suits[suit] * OPP_WEIGHT;
+
+    return suitStatus;
+}
+
+int chooseCard(Analyzer you, Analyzer opponent, Card table, Hand hand, int handSize)
 {
     int max = INT_MIN;
     int maxIndex = chooseSpecialCard(table, hand, handSize);
@@ -121,7 +120,7 @@ int chooseCard(Analyzer self, Analyzer opponent, Card table, Hand hand, int hand
 
     int index_A =  findCardByValue(A, table, hand, handSize);
 
-    if (index_A > 0 && handSize / getMaxSuitFrequency(self, handSize) > DESIRED_SUIT_FREQ)
+    if (index_A > 0 && handSize / getMaxSuitFrequency(you, handSize) > DESIRED_SUIT_FREQ)
     {
         return index_A;
     }
@@ -130,8 +129,8 @@ int chooseCard(Analyzer self, Analyzer opponent, Card table, Hand hand, int hand
     {
         if (canPutTable(hand[i], table))
         {
-            int currValueStatus = valueStatus(self, opponent, hand[i].value);
-            int currSuitStatus = suitStatus(self, opponent, hand[i].suit);
+            int currValueStatus = valueStatus(you, opponent, hand[i].value);
+            int currSuitStatus = suitStatus(you, opponent, hand[i].suit);
 
             if (currValueStatus + currSuitStatus > max)
             {

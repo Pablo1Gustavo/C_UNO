@@ -48,7 +48,7 @@ void buy(int n)
     printf("BUY %d\n", n);
 }
 
-void discard(Card card, Card* tableCard, Analyzer self)
+void discard(Card card, Card* tableCard, Analyzer you)
 {
     tableCard->value = card.value;
     tableCard->suit = card.suit;
@@ -57,7 +57,7 @@ void discard(Card card, Card* tableCard, Analyzer self)
 
     if (canChangeColor(card))
     {
-        printf(" %s", getSuit(chooseMaxSuit(self)));
+        printf(" %s", getSuit(chooseMaxSuit(you)));
     }
 
     printf("\n");

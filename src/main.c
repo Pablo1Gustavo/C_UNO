@@ -12,7 +12,7 @@ int main()
     char action[MAX_ACTION];
 
     Analyzer opponentAnalyzer;
-    Analyzer selfAnalyzer;
+    Analyzer youAnalyzer;
 
     scanf("PLAYERS %[^\n]\n", param);
 
@@ -26,7 +26,7 @@ int main()
     scanf("TABLE %s\n", param);
     Card tableCard = readCard(param);
 
-    initAnalyzer(&selfAnalyzer, myHand, handSize);
+    initAnalyzer(&youAnalyzer, myHand, handSize);
     initAnalyzer(&opponentAnalyzer, NULL, 0);
 
     Action currAct;
@@ -67,13 +67,13 @@ int main()
         {
             toBuy = 1;
 
-            int index = chooseCard(selfAnalyzer, opponentAnalyzer, tableCard, myHand, handSize);
+            int index = chooseCard(youAnalyzer, opponentAnalyzer, tableCard, myHand, handSize);
 
             if (index != -1)
             {
-                revertAnalyzer(&selfAnalyzer, myHand[index]);
+                revertAnalyzer(&youAnalyzer, myHand[index]);
 
-                discard(myHand[index], &tableCard, selfAnalyzer);
+                discard(myHand[index], &tableCard, youAnalyzer);
                 dropCardAndUpdate(index, myHand, &handSize);
 
                 toBuy = 0;
@@ -90,7 +90,7 @@ int main()
 
                 Card newCard = readCard(param);
                 
-                analyzeNew(&selfAnalyzer, newCard);
+                analyzeNew(&youAnalyzer, newCard);
                 addCardAndUpdate(newCard, myHand, &handSize);
             }
         }

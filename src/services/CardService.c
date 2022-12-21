@@ -43,21 +43,6 @@ Card readCard(char* cardIn)
     return card;
 }
 
-bool isBlackCard(Card card)
-{
-    return card.value == C || card.value == A;
-}
-
-bool canPutTable(Card card, Card table)
-{
-    return card.suit == table.suit || card.value == table.value || isBlackCard(card);
-}
-
-bool canChangeColor(Card card)
-{
-    return card.value == A || card.value == C;
-}
-
 char* getValue(Value value)
 {
     char values[][2] = {"A","1","2","3","4","5","6","7","8","9","10","V","D","R","C"};
@@ -85,6 +70,21 @@ char* getCard(Card card)
     strcpy(result + 1 + (card.value == 10), getSuit(card.suit));
 
     return result;
+}
+
+bool isBlackCard(Card card)
+{
+    return card.value == C || card.value == A;
+}
+
+bool canPutTable(Card card, Card table)
+{
+    return card.suit == table.suit || card.value == table.value || isBlackCard(card);
+}
+
+bool canChangeColor(Card card)
+{
+    return card.value == A || card.value == C;
 }
 
 #endif

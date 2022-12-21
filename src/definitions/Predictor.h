@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 // weights and salts
-#define SELF_WEIGHT 10
+#define YOU_WEIGHT 10
 #define OPP_WEIGHT 4
 #define CHOOSE_SPEC_CARD_PROB 70
 #define DESIRED_SUIT_FREQ 35
